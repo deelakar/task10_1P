@@ -1,13 +1,10 @@
 package onTrack;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
 import onTrack.models.Task;
 
 public class FeedbackGeneratorTest {
-
 
     @Test
     public void testGenerateFeedbackWithError() {

@@ -1,30 +1,32 @@
 package onTrack;
 
-import onTrack.models.Task;
-
 import java.util.regex.Pattern;
 
-public class FeedbackGenerator {
+import onTrack.models.Task;
 
+public class FeedbackGenerator {
     public String generateFeedback(Task task) {
         if (task.getContent() == null || task.getContent().trim().isEmpty()) {
             return "Your task content is empty.";
         }
-        
+
         String content = task.getContent().toLowerCase();
+        StringBuilder feedback = new StringBuilder();
 
         if (Pattern.compile(Pattern.quote("error"), Pattern.CASE_INSENSITIVE).matcher(content).find()) {
-            return "Your task contains errors.";
+            feedback.append("Your task contains errors. ");
         }
-
         if (Pattern.compile(Pattern.quote("missing"), Pattern.CASE_INSENSITIVE).matcher(content).find()) {
-            return "Your task is missing some components.";
+            feedback.append("Your task is missing some components. ");
         }
-
         if (Pattern.compile(Pattern.quote("incorrect"), Pattern.CASE_INSENSITIVE).matcher(content).find()) {
-            return "Your task contains incorrect information.";
+            feedback.append("Your task contains incorrect information. ");
         }
 
-        return "Your task is correct.";
+        if (feedback.length() == 0) {
+            return "Your task is correct.";
+        } else {
+            return feedback.toString().trim();
+        }
     }
 }
