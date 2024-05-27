@@ -6,7 +6,7 @@ import onTrack.models.Task;
 
 public class FeedbackGeneratorTest {
 
-    @Test
+	@Test
     public void testGenerateFeedbackWithError() {
         FeedbackGenerator generator = new FeedbackGenerator();
         Task taskWithErrors = new Task("1", "This task has an error.");
@@ -44,5 +44,29 @@ public class FeedbackGeneratorTest {
         Task taskWithIncorrectInfo = new Task("5", "This task contains incorrect info.");
         String feedback = generator.generateFeedback(taskWithIncorrectInfo);
         assertEquals("Your task contains incorrect information.", feedback);
+    }
+
+    @Test
+    public void testGenerateFeedbackWithMixedIssues() {
+        FeedbackGenerator generator = new FeedbackGenerator();
+        Task taskWithMixedIssues = new Task("6", "This task is missing parts and contains incorrect info.");
+        String feedback = generator.generateFeedback(taskWithMixedIssues);
+        assertEquals("Your task is missing some components. Your task contains incorrect information.", feedback);
+    }
+
+    @Test
+    public void testGenerateFeedbackWithAllIssues() {
+        FeedbackGenerator generator = new FeedbackGenerator();
+        Task taskWithAllIssues = new Task("7", "This task has an error, is missing parts, and contains incorrect info.");
+        String feedback = generator.generateFeedback(taskWithAllIssues);
+        assertEquals("Your task contains errors. Your task is missing some components. Your task contains incorrect information.", feedback);
+    }
+
+    @Test
+    public void testGenerateFeedbackWithNullContent() {
+        FeedbackGenerator generator = new FeedbackGenerator();
+        Task nullContentTask = new Task("8", null);
+        String feedback = generator.generateFeedback(nullContentTask);
+        assertEquals("Your task content is empty.", feedback);
     }
 }
