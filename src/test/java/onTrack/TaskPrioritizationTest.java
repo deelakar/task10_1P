@@ -1,7 +1,6 @@
 package onTrack;
 
 import static org.junit.Assert.assertEquals;
-
 import onTrack.models.Task;
 import org.junit.Test;
 
@@ -101,5 +100,31 @@ public class TaskPrioritizationTest {
         assertEquals("Task 2", tasks.get(0).getContent());
         assertEquals("Task 3", tasks.get(1).getContent());
         assertEquals("Task 1", tasks.get(2).getContent());
+    }
+
+    @Test
+    public void testRetrieveTasksWhenNoTasksPresent() {
+        TaskPrioritization prioritization = new TaskPrioritization();
+
+        List<Task> tasks = prioritization.getTasksSortedByPriority();
+
+        assertEquals(0, tasks.size());
+    }
+
+    @Test
+    public void testPrioritizeTaskWithInvalidPriority() {
+        TaskPrioritization prioritization = new TaskPrioritization();
+        Task task1 = new Task("1", "Task 1");
+        Task task2 = new Task("2", "Task 2");
+
+        prioritization.addTask(task1);
+        prioritization.addTask(task2);
+
+        prioritization.prioritizeTask(task1, 10);
+
+        List<Task> tasks = prioritization.getTasksSortedByPriority();
+
+        assertEquals("Task 2", tasks.get(0).getContent());
+        assertEquals("Task 1", tasks.get(1).getContent());
     }
 }
